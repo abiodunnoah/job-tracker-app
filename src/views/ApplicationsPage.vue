@@ -25,7 +25,7 @@ const navigateToAdd = () => {
     <Sidebar />
 
     <div class="flex-1 flex flex-col">
-      <Navbar />
+      <Navbar title="Applications" />
 
       <div class="applications-page">
         <FilterBar @filter="handleFilter" />

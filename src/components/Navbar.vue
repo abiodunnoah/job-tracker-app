@@ -1,6 +1,15 @@
+<script setup>
+defineProps({
+  title: {
+    type: String,
+    default: "Job Applications",
+  },
+});
+</script>
+
 <template>
   <header class="navbar">
-    <h1 class="navbar-title">Job Applications</h1>
+    <h1 class="navbar-title">{{ title }}</h1>
 
     <div class="navbar-user">
       <div class="user-avatar">
