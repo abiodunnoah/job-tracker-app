@@ -1,6 +1,43 @@
 <script setup>
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
+import { reactive } from "vue";
+import { useJobsStore } from "@/stores/jobsStore";
+import { useRouter } from "vue-router";
+
+const jobsStore = useJobsStore();
+const router = useRouter();
+
+const form = reactive({
+  company: "",
+  position: "",
+  status: "applied",
+  date: new Date().toISOString().split("T")[0],
+  location: "",
+  url: "",
+  notes: "",
+});
+
+const handleSubmit = () => {
+  if (!form.company || !form.position) return;
+
+  const newJob = {
+    company: form.company,
+    role: form.position,
+    status: form.status.toLowerCase(), // Store expects lowercase "applied", "interview", "offer", "rejected"
+    appliedDate: new Date(form.date).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }),
+    location: form.location,
+    url: form.url,
+    notes: form.notes,
+  };
+
+  jobsStore.addJob(newJob);
+  router.push("/applications");
+};
 </script>
 
 <template>
@@ -12,7 +49,7 @@ import Sidebar from "../components/Sidebar.vue";
 
       <div class="p-6 md:p-10">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-          <form class="space-y-6">
+          <form @submit.prevent="handleSubmit" class="space-y-6">
             <!-- Company Name -->
             <div class="form-group">
               <label
@@ -21,8 +58,10 @@ import Sidebar from "../components/Sidebar.vue";
                 >Company Name</label
               >
               <input
+                v-model="form.company"
                 type="text"
                 id="company"
+                required
                 class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 placeholder="e.g. Google"
               />
@@ -36,8 +75,10 @@ import Sidebar from "../components/Sidebar.vue";
                 >Position</label
               >
               <input
+                v-model="form.position"
                 type="text"
                 id="position"
+                required
                 class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                 placeholder="e.g. Frontend Developer"
               />
@@ -53,13 +94,14 @@ import Sidebar from "../components/Sidebar.vue";
                 >
                 <div class="relative">
                   <select
+                    v-model="form.status"
                     id="status"
                     class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white"
                   >
-                    <option value="Applied">Applied</option>
-                    <option value="Interviewing">Interviewing</option>
-                    <option value="Offer">Offer</option>
-                    <option value="Rejected">Rejected</option>
+                    <option value="applied">Applied</option>
+                    <option value="interview">Interviewing</option>
+                    <option value="offer">Offer</option>
+                    <option value="rejected">Rejected</option>
                   </select>
                   <div
                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
@@ -86,6 +128,7 @@ import Sidebar from "../components/Sidebar.vue";
                 >
                 <div class="relative">
                   <input
+                    v-model="form.date"
                     type="date"
                     id="date"
                     class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
@@ -102,6 +145,7 @@ import Sidebar from "../components/Sidebar.vue";
                 >Location</label
               >
               <input
+                v-model="form.location"
                 type="text"
                 id="location"
                 class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
@@ -118,6 +162,7 @@ import Sidebar from "../components/Sidebar.vue";
                 <span class="text-gray-400 font-normal">(Optional)</span></label
               >
               <input
+                v-model="form.url"
                 type="url"
                 id="url"
                 class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
@@ -134,10 +179,21 @@ import Sidebar from "../components/Sidebar.vue";
                 <span class="text-gray-400 font-normal">(Optional)</span></label
               >
               <textarea
+                v-model="form.notes"
                 id="notes"
                 rows="4"
                 class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none"
               ></textarea>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex justify-end pt-4">
+              <button
+                type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors shadow-sm"
+              >
+                Add Application
+              </button>
             </div>
           </form>
         </div>

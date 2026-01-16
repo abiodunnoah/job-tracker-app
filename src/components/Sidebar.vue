@@ -4,10 +4,6 @@ import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
-
-const handleLogout = () => {
-  console.log("Logout clicked");
-};
 </script>
 
 <template>
@@ -59,7 +55,12 @@ const handleLogout = () => {
         to="/settings"
         :active="route.path === '/settings'"
       />
-      <SidebarLink icon="logout" label="Logout" @click="handleLogout" />
+      <SidebarLink
+        icon="logout"
+        label="Logout"
+        to="/logout"
+        :active="route.path === '/logout'"
+      />
     </nav>
   </aside>
 </template>

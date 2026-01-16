@@ -4,6 +4,9 @@ import ApplicationsPage from "../views/ApplicationsPage.vue";
 import AddApplicationPage from "../views/Add-ApplicationPage.vue";
 import SettingsPage from "../views/SettingsPage.vue";
 import LogoutPage from "../views/LogoutPage.vue";
+import LoginPage from "../views/LoginPage.vue";
+import SignupPage from "../views/SignupPage.vue";
+import SignoutPage from "../views/SignoutPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +35,21 @@ const router = createRouter({
       path: "/logout",
       name: "Logout",
       component: LogoutPage,
+    },
+    {
+      path: "/signup",
+      name: "Signup",
+      component: SignupPage,
+    },
+    {
+      path: "/signout",
+      name: "Signout",
+      component: SignoutPage,
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: LoginPage,
     },
   ],
 });
