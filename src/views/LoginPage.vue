@@ -8,10 +8,16 @@ const email = ref("");
 const password = ref("");
 const showPassword = ref(false);
 
-const handleLogin = () => {
-  console.log("Login attempt:", email.value);
-  // Future Firebase integration here
-  router.push("/");
+import useLogin from "../composables/useLogin";
+
+const { login, error, isPending } = useLogin();
+
+const handleLogin = async () => {
+  await login(email.value, password.value);
+  if (!error.value) {
+    console.log("User logged in");
+    router.push("/");
+  }
 };
 
 const handleGoogleLogin = () => {
@@ -20,37 +26,29 @@ const handleGoogleLogin = () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex">
+  <div class="min-h-screen flex font-sans text-gray-900">
     <!-- Left Side - Branding -->
     <div
-      class="hidden lg:flex lg:w-1/2 bg-blue-600 flex-col justify-center px-12 relative overflow-hidden"
+      class="hidden lg:flex lg:w-1/2 bg-slate-900 flex-col justify-center px-12 relative overflow-hidden"
     >
-      <!-- Abstract Background shapes -->
-      <div
-        class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
-      >
-        <svg
-          viewBox="0 0 100 100"
-          class="absolute top-[-20%] right-[-20%] w-[80%] h-[80%] text-white fill-current"
-        >
-          <circle cx="50" cy="50" r="50" />
-        </svg>
-        <svg
-          viewBox="0 0 100 100"
-          class="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] text-white fill-current"
-        >
-          <rect x="0" y="0" width="100" height="100" rx="20" />
-        </svg>
+      <!-- Abstract Background shapes (Glows) -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl"
+        ></div>
+        <div
+          class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-3xl"
+        ></div>
       </div>
 
-      <div class="relative z-10 text-white">
-        <div class="flex items-center gap-3 mb-8">
+      <div class="relative z-10 text-white max-w-lg mx-auto">
+        <div class="flex items-center gap-3 mb-12">
           <div
-            class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center"
+            class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/10 shadow-xl"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8 text-white"
+              class="h-6 w-6 text-blue-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -63,15 +61,42 @@ const handleGoogleLogin = () => {
               />
             </svg>
           </div>
-          <h1 class="text-3xl font-bold tracking-wide">Job Tracker</h1>
+          <span class="text-xl font-bold tracking-tight text-white/90"
+            >Job Tracker</span
+          >
         </div>
-        <h2 class="text-4xl font-extrabold mb-6 leading-tight">
-          Track your career <br />progress effortlessly.
+
+        <h2 class="text-5xl font-bold mb-8 leading-tight tracking-tight">
+          Master your <span class="text-blue-400">career</span> journey.
         </h2>
-        <p class="text-blue-100 text-lg max-w-md">
-          Join thousands of professionals who improved their job search
-          efficiency with our intuitive tracking tools.
+
+        <p class="text-slate-400 text-lg leading-relaxed mb-12">
+          Streamline your job search with intelligent tracking, insights, and
+          reminders. Join professionals who are taking control of their future.
         </p>
+
+        <!-- Glassmorphism Stats Card Mockup -->
+        <div
+          class="p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl skew-y-1 transform transition-transform hover:skew-y-0 duration-500"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <p class="text-xs text-slate-400 uppercase tracking-wider">
+                Applications
+              </p>
+              <p class="text-2xl font-bold text-white">24</p>
+            </div>
+            <div
+              class="text-green-400 bg-green-400/10 px-2 py-1 rounded text-xs"
+            >
+              +12 this week
+            </div>
+          </div>
+          <div class="w-full bg-white/10 rounded-full h-1.5 mb-2">
+            <div class="bg-green-500 h-1.5 rounded-full w-3/4"></div>
+          </div>
+          <p class="text-xs text-slate-500">75% Response Rate Goal</p>
+        </div>
       </div>
     </div>
 
@@ -80,98 +105,112 @@ const handleGoogleLogin = () => {
       class="w-full lg:w-1/2 flex items-center justify-center bg-white p-8 lg:p-24"
     >
       <div class="w-full max-w-md">
-        <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-        <p class="text-gray-500 mb-8">Please enter your details to sign in.</p>
+        <div class="mb-10">
+          <h2 class="text-3xl font-bold text-slate-900 mb-3">Welcome back</h2>
+          <p class="text-slate-500">
+            Please enter your details to access your account.
+          </p>
+        </div>
 
         <form @submit.prevent="handleLogin" class="space-y-6">
           <button
             type="button"
             @click="handleGoogleLogin"
-            class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 font-medium py-3 rounded-xl hover:bg-gray-50 transition-all active:scale-[0.98]"
+            class="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-700 font-medium py-3.5 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all active:scale-[0.98] shadow-sm"
           >
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               class="w-5 h-5"
               alt="Google"
             />
-            Sign in with Google
+            <span>Sign in with Google</span>
           </button>
 
           <div class="relative flex py-2 items-center">
-            <div class="flex-grow border-t border-gray-200"></div>
-            <span class="flex-shrink-0 mx-4 text-gray-400 text-sm">Or</span>
-            <div class="flex-grow border-t border-gray-200"></div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Email Address</label
+            <div class="flex-grow border-t border-slate-100"></div>
+            <span class="flex-shrink-0 mx-4 text-slate-400 text-sm font-medium"
+              >Or email</span
             >
-            <input
-              v-model="email"
-              type="email"
-              required
-              class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-gray-400"
-              placeholder="Enter your email"
-            />
+            <div class="flex-grow border-t border-slate-100"></div>
           </div>
 
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <label class="block text-sm font-medium text-gray-700"
-                >Password</label
+          <div class="space-y-5">
+            <div>
+              <label
+                class="block text-sm font-medium text-slate-700 mb-1.5"
+                for="email"
+                >Email address</label
               >
-            </div>
-            <div class="relative">
               <input
-                v-model="password"
-                :type="showPassword ? 'text' : 'password'"
+                id="email"
+                v-model="email"
+                type="email"
                 required
-                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder-gray-400"
-                placeholder="••••••••"
+                class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-400 text-slate-900"
+                placeholder="Enter your email"
               />
-              <button
-                type="button"
-                @click="showPassword = !showPassword"
-                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
-              >
-                <svg
-                  v-if="!showPassword"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-1.5">
+                <label
+                  class="block text-sm font-medium text-slate-700"
+                  for="password"
+                  >Password</label
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-                <svg
-                  v-else
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              </div>
+              <div class="relative">
+                <input
+                  id="password"
+                  v-model="password"
+                  :type="showPassword ? 'text' : 'password'"
+                  required
+                  class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-400 text-slate-900"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  @click="showPassword = !showPassword"
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none p-1"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.054 10.054 0 01-1.791 3.07m-2.519 2.519l3.59 3.59"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    v-if="!showPassword"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                  <svg
+                    v-else
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.054 10.054 0 01-1.791 3.07m-2.519 2.519l3.59 3.59"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -180,33 +219,33 @@ const handleGoogleLogin = () => {
               <input
                 id="remember-me"
                 type="checkbox"
-                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded"
               />
-              <label for="remember-me" class="ml-2 block text-sm text-gray-700"
+              <label for="remember-me" class="ml-2 block text-sm text-slate-600"
                 >Remember me</label
               >
             </div>
             <a
               href="#"
-              class="text-sm font-medium text-blue-600 hover:text-blue-500"
+              class="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
               >Forgot password?</a
             >
           </div>
 
           <button
             type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-all shadow-md hover:shadow-lg active:scale-[0.98]"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 active:scale-[0.98]"
           >
             Sign In
           </button>
         </form>
 
-        <p class="mt-8 text-center text-sm text-gray-500">
+        <p class="mt-8 text-center text-sm text-slate-500">
           Don't have an account?
           <router-link
             to="/signup"
-            class="text-blue-600 hover:text-blue-700 font-semibold"
-            >Sign up</router-link
+            class="text-blue-600 hover:text-blue-700 font-semibold hover:underline"
+            >Sign up for free</router-link
           >
         </p>
       </div>

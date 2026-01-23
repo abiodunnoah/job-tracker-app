@@ -3,10 +3,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const handleReturnHome = () => {
-  router.push("/");
-};
-
 const handleLogin = () => {
   router.push("/login");
 };
@@ -47,12 +43,6 @@ const handleLogin = () => {
           class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors shadow-sm"
         >
           Sign In Again
-        </button>
-        <button
-          @click="handleReturnHome"
-          class="w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2.5 rounded-lg transition-colors"
-        >
-          Return to Home
         </button>
       </div>
     </div>

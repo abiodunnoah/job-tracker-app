@@ -2,12 +2,18 @@
 import Sidebar from "@/components/Sidebar.vue";
 import Navbar from "@/components/Navbar.vue";
 import { useRouter } from "vue-router";
+import useLogout from "../composables/useLogout";
 
 const router = useRouter();
 
-const handleLogout = () => {
-  console.log("User logged out");
-  router.push("/");
+const { logout, error, isPending } = useLogout();
+
+const handleLogout = async () => {
+  await logout();
+  if (!error.value) {
+    console.log("User logged out");
+    router.push("/signout");
+  }
 };
 
 const handleCancel = () => {
