@@ -1,7 +1,12 @@
 <script setup>
 import StatusBadge from "./StatusBadge.vue";
+import { useRouter } from "vue-router";
 
-defineProps({
+const props = defineProps({
+  id: {
+    type: [Number, String],
+    required: true,
+  },
   company: {
     type: String,
     required: true,
@@ -19,14 +24,22 @@ defineProps({
     required: true,
   },
 });
+
+const router = useRouter();
+
+const navigateToDetails = () => {
+  if (props.id) {
+    router.push({ name: "JobDetails", params: { id: props.id } });
+  }
+};
 </script>
 
 <template>
-  <div class="job-card">
+  <div class="job-card" @click="navigateToDetails">
     <h3 class="job-company">{{ company }}</h3>
     <p class="job-role">{{ role }}</p>
     <StatusBadge :status="status" />
-    <p class="job-date">Applied on: {{ appliedDate }}</p>
+    <p class="job-date">{{ appliedDate }}</p>
   </div>
 </template>
 
@@ -39,7 +52,10 @@ defineProps({
   flex-direction: column;
   gap: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  cursor: pointer;
 }
 
 .job-card:hover {

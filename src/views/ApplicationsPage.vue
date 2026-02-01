@@ -46,7 +46,7 @@ const navigateToAdd = () => {
         <JobCardGrid
           v-if="jobsStore.filteredJobs.length"
           :jobs="jobsStore.filteredJobs"
-          :limit="4"
+          :limit="jobsStore.filteredJobs.length"
         />
         <EmptyState v-else @add="navigateToAdd" />
       </div>

@@ -10,7 +10,7 @@ const showPassword = ref(false);
 
 import useLogin from "../composables/useLogin";
 
-const { login, error, isPending } = useLogin();
+const { login, loginWithGoogle, error, isPending } = useLogin();
 
 const handleLogin = async () => {
   await login(email.value, password.value);
@@ -20,8 +20,12 @@ const handleLogin = async () => {
   }
 };
 
-const handleGoogleLogin = () => {
+const handleGoogleLogin = async () => {
   console.log("Google Login attempt");
+  await loginWithGoogle();
+  if (!error.value) {
+    router.push("/");
+  }
 };
 </script>
 

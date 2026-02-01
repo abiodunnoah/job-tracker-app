@@ -18,6 +18,7 @@ defineProps({
     <JobCard
       v-for="job in jobs.slice(0, limit)"
       :key="job.id"
+      :id="job.id"
       :company="job.company"
       :role="job.role"
       :status="job.status"

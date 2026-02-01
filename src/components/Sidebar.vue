@@ -49,12 +49,12 @@ const router = useRouter();
         to="/add-application"
         :active="route.path === '/add-application'"
       />
-      <SidebarLink
+      <!-- <SidebarLink
         icon="cog"
         label="Settings"
         to="/settings"
         :active="route.path === '/settings'"
-      />
+      /> -->
       <SidebarLink
         icon="logout"
         label="Logout"

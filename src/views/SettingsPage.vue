@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { ref } from "vue";
 import Sidebar from "@/components/Sidebar.vue";
 import Navbar from "@/components/Navbar.vue";
@@ -20,9 +20,9 @@ const updateProfile = () => {
 const formatLabel = (key) => {
   return key.replace(/([A-Z])/g, " $1").trim();
 };
-</script>
+</script> -->
 
-<template>
+<!-- <template>
   <div class="min-h-screen flex bg-slate-50 font-sans">
     <Sidebar />
 
@@ -31,14 +31,12 @@ const formatLabel = (key) => {
 
       <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
         <div class="max-w-6xl mx-auto space-y-8">
-          <!-- Profile Section -->
           <div
             class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8"
           >
             <h2 class="text-xl font-bold text-slate-800 mb-6">Profile</h2>
 
             <div class="flex flex-col md:flex-row gap-8 items-start">
-              <!-- Avatar -->
               <div class="flex-shrink-0">
                 <div
                   class="w-24 h-24 rounded-full overflow-hidden border-4 border-slate-50 shadow-sm"
@@ -51,7 +49,6 @@ const formatLabel = (key) => {
                 </div>
               </div>
 
-              <!-- Form -->
               <div class="flex-1 w-full space-y-5">
                 <div>
                   <label
@@ -90,7 +87,6 @@ const formatLabel = (key) => {
             </div>
           </div>
 
-          <!-- Preferences Section -->
           <div
             class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8"
           >
@@ -108,7 +104,6 @@ const formatLabel = (key) => {
                   {{ formatLabel(key) }}
                 </span>
 
-                <!-- Toggle Switch -->
                 <button
                   @click="preferences[key] = !preferences[key]"
                   class="relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none"
@@ -128,4 +123,6 @@ const formatLabel = (key) => {
       </main>
     </div>
   </div>
-</template>
+</template> -->
+
+<template>hi</template>

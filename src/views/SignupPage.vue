@@ -13,7 +13,7 @@ const confirmPassword = ref("");
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
-const { signup, error, isLoading } = useSignup();
+const { signup, signupWithGoogle, error, isLoading } = useSignup();
 
 const handleSignup = async () => {
   error.value = null;
@@ -50,8 +50,12 @@ const handleSignup = async () => {
   console.log("Sign up attempt");
 };
 
-const handleGoogleSignup = () => {
+const handleGoogleSignup = async () => {
   console.log("Google Signup attempt");
+  await signupWithGoogle();
+  if (!error.value) {
+    router.push("/");
+  }
 };
 </script>
 

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
 import ApplicationsPage from "../views/ApplicationsPage.vue";
 import AddApplicationPage from "../views/Add-ApplicationPage.vue";
+import JobDetailsPage from "../views/JobDetailsPage.vue";
 import SettingsPage from "../views/SettingsPage.vue";
 import LogoutPage from "../views/LogoutPage.vue";
 import LoginPage from "../views/LoginPage.vue";
@@ -21,6 +22,12 @@ const router = createRouter({
       path: "/applications",
       name: "Applications",
       component: ApplicationsPage,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/jobs/:id",
+      name: "JobDetails",
+      component: JobDetailsPage,
       meta: { requiresAuth: true },
     },
     {
