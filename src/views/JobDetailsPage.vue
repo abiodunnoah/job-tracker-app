@@ -6,22 +6,29 @@ import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
 import StatusBadge from "../components/StatusBadge.vue";
 
+import ConfirmationModal from "../components/ConfirmationModal.vue";
+import { ref } from "vue";
+
 const route = useRoute();
 const router = useRouter();
 const jobsStore = useJobsStore();
 
-const jobId = computed(() => Number(route.params.id));
+const jobId = computed(() => route.params.id);
 const job = computed(() => jobsStore.jobs.find((j) => j.id === jobId.value));
+const showDeleteModal = ref(false);
 
 const goBack = () => {
   router.back();
 };
 
 const handleDelete = () => {
-  if (confirm("Are you sure you want to delete this application?")) {
-    jobsStore.deleteJob(job.value.id);
-    router.push("/applications");
-  }
+  showDeleteModal.value = true;
+};
+
+const confirmDelete = async () => {
+  await jobsStore.deleteJob(job.value.id);
+  showDeleteModal.value = false;
+  router.push("/applications");
 };
 </script>
 
@@ -179,5 +186,12 @@ const handleDelete = () => {
         </div>
       </main>
     </div>
+    <ConfirmationModal
+      :show="showDeleteModal"
+      title="Delete Application"
+      message="Are you sure you want to delete this application? This action cannot be undone."
+      @close="showDeleteModal = false"
+      @confirm="confirmDelete"
+    />
   </div>
 </template>

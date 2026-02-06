@@ -63,6 +63,7 @@ export const useJobsStore = defineStore("jobs", () => {
 
   const addJob = async (job) => {
     if (!auth.currentUser) return;
+    error.value = null;
 
     try {
       await addDoc(collection(db, "users", auth.currentUser.uid, "jobs"), {
