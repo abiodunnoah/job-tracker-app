@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
+import MobileNavbar from "@/components/MobileNavbar.vue";
 import { reactive } from "vue";
 import { useJobsStore } from "@/stores/jobsStore";
 import { useRouter } from "vue-router";
@@ -47,8 +48,10 @@ const handleSubmit = () => {
     <div class="flex-1 flex flex-col">
       <Navbar title="Add Application" />
 
-      <div class="p-6 md:p-10">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+      <div class="p-4 md:p-10 pb-24 md:pb-10">
+        <div
+          class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-8"
+        >
           <form @submit.prevent="handleSubmit" class="space-y-6">
             <!-- Company Name -->
             <div class="form-group">
@@ -199,5 +202,6 @@ const handleSubmit = () => {
         </div>
       </div>
     </div>
+    <MobileNavbar />
   </div>
 </template>

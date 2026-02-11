@@ -1,7 +1,9 @@
 <script setup>
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
+import MobileNavbar from "@/components/MobileNavbar.vue";
 import JobCardGrid from "@/components/JobCardGrid.vue";
+import SkeletonLoader from "@/components/SkeletonLoader.vue";
 import { useJobsStore } from "../stores/jobsStore";
 
 const jobsStore = useJobsStore();
@@ -15,10 +17,18 @@ const jobsStore = useJobsStore();
       <Navbar />
 
       <!-- Main page -->
-      <main class="flex-1 p-8">
+      <main class="flex-1 p-4 md:p-8 pb-24 md:pb-8">
+        <!-- Loading State -->
+        <div
+          v-if="jobsStore.isLoading"
+          class="grid grid-cols-1 md:grid-cols-2 gap-5"
+        >
+          <SkeletonLoader :count="4" type="card" />
+        </div>
+
         <!-- Empty State -->
         <div
-          v-if="!jobsStore.isLoading && jobsStore.jobs.length === 0"
+          v-else-if="!jobsStore.isLoading && jobsStore.jobs.length === 0"
           class="flex flex-col items-center justify-center h-[60vh] text-center"
         >
           <div
@@ -81,11 +91,12 @@ const jobsStore = useJobsStore();
           </p>
         </div>
         <JobCardGrid
-          v-if="jobsStore.jobs.length > 0"
+          v-if="!jobsStore.isLoading && jobsStore.jobs.length > 0"
           :jobs="jobsStore.recentJobs"
         />
       </main>
     </div>
+    <MobileNavbar />
   </div>
 </template>
 

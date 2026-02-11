@@ -5,6 +5,7 @@ import {
   collection,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc,
   query,
   onSnapshot,
@@ -88,6 +89,20 @@ export const useJobsStore = defineStore("jobs", () => {
     }
   };
 
+  const updateJob = async (id, updatedData) => {
+    if (!auth.currentUser) return;
+    error.value = null;
+
+    try {
+      const jobRef = doc(db, "users", auth.currentUser.uid, "jobs", id);
+      await updateDoc(jobRef, updatedData);
+    } catch (err) {
+      console.error("Error updating job:", err);
+      error.value = "Failed to update job";
+      throw err; // Re-throw so component knows it failed
+    }
+  };
+
   const filteredJobs = computed(() => {
     return jobs.value.filter((job) => {
       const matchesStatus =
@@ -150,5 +165,6 @@ export const useJobsStore = defineStore("jobs", () => {
     setFilter,
     addJob,
     deleteJob,
+    updateJob,
   };
 });

@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="job-card-grid">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
     <JobCard
       v-for="job in jobs.slice(0, limit)"
       :key="job.id"
@@ -27,16 +27,4 @@ defineProps({
   </div>
 </template>
 
-<style scoped>
-.job-card-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 768px) {
-  .job-card-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
+/* Layout handled by Tailwind */

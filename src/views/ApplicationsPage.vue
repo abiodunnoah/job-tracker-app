@@ -3,10 +3,12 @@ import { useRouter } from "vue-router";
 import { useJobsStore } from "../stores/jobsStore";
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
+import MobileNavbar from "@/components/MobileNavbar.vue";
 import FilterBar from "../components/FilterBar.vue";
 import StatsBadge from "../components/StatsBadge.vue";
 import JobCardGrid from "../components/JobCardGrid.vue";
 import EmptyState from "../components/EmptyState.vue";
+import SkeletonLoader from "@/components/SkeletonLoader.vue";
 
 const router = useRouter();
 const jobsStore = useJobsStore();
@@ -27,10 +29,10 @@ const navigateToAdd = () => {
     <div class="flex-1 flex flex-col">
       <Navbar title="Applications" />
 
-      <div class="applications-page">
+      <div class="p-4 md:p-6 pb-24 md:pb-6">
         <FilterBar @filter="handleFilter" />
 
-        <div class="stats-row">
+        <div class="flex flex-col md:flex-row gap-4 mb-6">
           <StatsBadge
             icon="dot"
             color="green"
@@ -65,25 +67,24 @@ const navigateToAdd = () => {
           </div>
         </div>
 
+        <!-- Loading State -->
+        <div
+          v-if="jobsStore.isLoading"
+          class="grid grid-cols-1 md:grid-cols-2 gap-5"
+        >
+          <SkeletonLoader :count="6" type="card" />
+        </div>
+
         <JobCardGrid
-          v-if="jobsStore.filteredJobs.length"
+          v-else-if="jobsStore.filteredJobs.length"
           :jobs="jobsStore.filteredJobs"
           :limit="jobsStore.filteredJobs.length"
         />
         <EmptyState v-else @add="navigateToAdd" />
       </div>
     </div>
+    <MobileNavbar />
   </div>
 </template>
 
-<style scoped>
-.applications-page {
-  padding: 24px;
-}
-
-.stats-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-</style>
+/* Layout handled by Tailwind */

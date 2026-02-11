@@ -22,8 +22,10 @@ const photoURL = computed(() => {
 </script>
 
 <template>
-  <header class="navbar">
-    <h1 class="navbar-title">{{ title }}</h1>
+  <header
+    class="navbar flex items-center justify-between px-4 py-3 md:py-4 md:px-8 border-b border-gray-200 sticky top-0 z-30 bg-white/95 backdrop-blur-sm"
+  >
+    <h1 class="navbar-title text-lg font-semibold md:text-2xl">{{ title }}</h1>
 
     <div v-if="user" class="navbar-user">
       <div class="user-avatar">
@@ -39,7 +41,7 @@ const photoURL = computed(() => {
           alt="Default avatar"
         />
       </div>
-      <span class="user-name">Hi {{ displayName }}</span>
+      <span class="user-name hidden md:block">Hi {{ displayName }}</span>
       <svg
         class="user-dropdown-icon"
         xmlns="http://www.w3.org/2000/svg"
@@ -63,17 +65,7 @@ const photoURL = computed(() => {
 </template>
 
 <style scoped>
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-
 .navbar-title {
-  font-size: 22px;
-  font-weight: 600;
   color: #1f2937;
   margin: 0;
 }

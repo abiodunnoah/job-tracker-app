@@ -23,7 +23,9 @@ const handleFilter = () => {
 </script>
 
 <template>
-  <div class="filter-bar">
+  <div
+    class="filter-bar flex flex-col md:flex-row items-stretch md:items-center gap-4 p-4 mb-5"
+  >
     <div class="filter-group">
       <label class="filter-label">Status:</label>
       <select v-model="selectedStatus" class="filter-select">
@@ -49,15 +51,11 @@ const handleFilter = () => {
 </template>
 
 <style scoped>
+/* Layout handled by Tailwind */
 .filter-bar {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
   background-color: white;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Keep shadow/bg/radius if preferred, or move to tailwind */
 }
 
 .filter-group {

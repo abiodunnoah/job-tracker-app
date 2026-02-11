@@ -7,7 +7,7 @@ const router = useRouter();
 </script>
 
 <template>
-  <aside class="sidebar">
+  <aside class="sidebar hidden md:flex flex-col">
     <!-- Logo Section -->
     <div class="sidebar-header">
       <div class="sidebar-logo">
@@ -71,8 +71,7 @@ const router = useRouter();
   min-height: 100vh;
   background: linear-gradient(180deg, #ebf2fc 0%, #82a8cf 100%);
   padding: 20px 16px;
-  display: flex;
-  flex-direction: column;
+  /* Display properties handled by Tailwind classes in template */
 }
 
 .sidebar-header {
