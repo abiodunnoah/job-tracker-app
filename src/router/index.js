@@ -1,13 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
-import ApplicationsPage from "../views/ApplicationsPage.vue";
-import AddApplicationPage from "../views/Add-ApplicationPage.vue";
-import JobDetailsPage from "../views/JobDetailsPage.vue";
-import SettingsPage from "../views/SettingsPage.vue";
-import LogoutPage from "../views/LogoutPage.vue";
-import LoginPage from "../views/LoginPage.vue";
-import SignupPage from "../views/SignupPage.vue";
-import SignoutPage from "../views/SignoutPage.vue";
+import { auth } from "../firebase/config";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,61 +7,59 @@ const router = createRouter({
     {
       path: "/",
       name: "Dashboard",
-      component: Dashboard,
+      component: () => import("../views/Dashboard.vue"),
       meta: { requiresAuth: true },
     },
     {
       path: "/applications",
       name: "Applications",
-      component: ApplicationsPage,
+      component: () => import("../views/ApplicationsPage.vue"),
       meta: { requiresAuth: true },
     },
     {
       path: "/jobs/:id",
       name: "JobDetails",
-      component: JobDetailsPage,
+      component: () => import("../views/JobDetailsPage.vue"),
       meta: { requiresAuth: true },
     },
     {
       path: "/add-application",
       name: "AddApplication",
-      component: AddApplicationPage,
+      component: () => import("../views/Add-ApplicationPage.vue"),
       meta: { requiresAuth: true },
     },
     {
       path: "/settings",
       name: "Settings",
-      component: SettingsPage,
+      component: () => import("../views/SettingsPage.vue"),
       meta: { requiresAuth: true },
     },
     {
       path: "/logout",
       name: "Logout",
-      component: LogoutPage,
+      component: () => import("../views/LogoutPage.vue"),
       meta: { requiresAuth: true },
     },
     {
       path: "/signup",
       name: "Signup",
-      component: SignupPage,
+      component: () => import("../views/SignupPage.vue"),
       meta: { requiresAuth: false },
     },
     {
       path: "/signout",
       name: "Signout",
-      component: SignoutPage,
+      component: () => import("../views/SignoutPage.vue"),
       meta: { requiresAuth: false },
     },
     {
       path: "/login",
       name: "Login",
-      component: LoginPage,
+      component: () => import("../views/LoginPage.vue"),
       meta: { requiresAuth: false },
     },
   ],
 });
-
-import { auth } from "../firebase/config";
 
 // navigation guard
 router.beforeEach((to, from, next) => {

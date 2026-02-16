@@ -13,4 +13,15 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["vue", "vue-router", "pinia"],
+          "naive-ui": ["naive-ui"],
+          firebase: ["firebase/app", "firebase/auth", "firebase/firestore"],
+        },
+      },
+    },
+  },
 });
